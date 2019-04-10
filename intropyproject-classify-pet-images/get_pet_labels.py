@@ -45,7 +45,7 @@ def get_pet_labels(image_dir):
      results_dic = {}
 
      for i in range(0, len(in_files), 1):
-          dog_breed = "" 
+          image_name = "" 
           
           pet_image = in_files[i]
 
@@ -55,12 +55,12 @@ def get_pet_labels(image_dir):
 
           for word in pet_image_word_list:
                if word.isalpha():
-                    dog_breed += word + ' '
+                    image_name += word + ' '
                     
-          dog_breed = dog_breed.strip()
+          image_name = image_name.strip()
           
           if in_files[i] not in results_dic:
-               results_dic[in_files[i]] = [dog_breed]
+               results_dic[in_files[i]] = [image_name]
           else:
                print("Duplicate files exist in directory: ", in_files[i])
 
