@@ -4,7 +4,7 @@
 #                                                                             
 # PROGRAMMER: Michael Ohakwe
 # DATE CREATED: 4/8/19                                 
-# REVISED DATE: 4/8/19
+# REVISED DATE: 4/11/19
 # PURPOSE: Create the function get_pet_labels that creates the pet labels from 
 #          the image's filename. This function inputs: 
 #           - The Image Folder as image_dir within get_pet_labels function and 
@@ -39,29 +39,30 @@ def get_pet_labels(image_dir):
           List. The list contains for following item:
           index 0 = pet image label (string)
      """
-#    List all files in the image directory passed into the function
+#    List all filenames in the image directory passed into the function
      in_files = listdir(image_dir)
 
 #    Initialize results dictionary
      results_dic = {}
 
+#    Process each filename and extract the image label
      for i in range(0, len(in_files), 1):
-          image_name = "" 
-          
+
+#         Initialize variable to store image label
+          image_label = "" 
+
+#         Take filename and format it to be stored as image label. Lowercase, no underscores, and everything after '.' removed        
           pet_image = in_files[i]
-
           pet_image_lower = pet_image.lower()
-
           pet_image_word_list = pet_image_lower.split('_')
-
           for word in pet_image_word_list:
                if word.isalpha():
-                    image_name += word + ' '
-                    
-          image_name = image_name.strip()
-          
+                    image_label += word + ' '                    
+          image_label = image_label.strip()
+
+#         Populates the results dictionary with the filename as the key and the formatted image label as the value          
           if in_files[i] not in results_dic:
-               results_dic[in_files[i]] = [image_name]
+               results_dic[in_files[i]] = [image_label]
           else:
                print("Duplicate files exist in directory: ", in_files[i])
 

@@ -4,7 +4,7 @@
 #                                                                             
 # PROGRAMMER: Michael Ohakwe
 # DATE CREATED: 4/10/2019
-# REVISED DATE: 4/10/2019
+# REVISED DATE: 4/11/2019
 # PURPOSE: Create a function print_results that prints the results statistics
 #          from the results statistics dictionary (results_stats_dic). It 
 #          should also allow the user to be able to print out cases of misclassified
@@ -33,22 +33,30 @@
 # 
 def print_results(results_dic, results_stats_dic, model, 
                   print_incorrect_dogs = False, print_incorrect_breed = False):
-#       print(results_stats_dic)
+#       Print the results that were specified in the project guidlines
         print('\nThe CNN Model Architecture used is: ', model)
         print('\nNumber of Images = ', str(results_stats_dic['n_images']))
+
+#       If asked to specify the images incorrectly classified as dogs
         if print_incorrect_dogs == True:
                 print('\nIncorrectly Classified as Dogs:')
+
+#               Print the filenames of the images that the Classifier says are of a dog and aren't
                 for key in results_dic:
                         if (results_dic[key][4] == 1) & (results_dic[key][3] == 0):
                                 print(key) 
                         
         if print_incorrect_breed == True:
                 print('\nIncorrect Breeds:')
+
+#               Print out the filenames of the images that are dogs and the Classifier gave the incorrect breed
                 for key in results_dic:
-                        if results_dic[key][2] == 0:
+                        if (results_dic[key][2] == 0) & (results_dic[key][3] == 1):
                                 print(key)
         print('\n')
         print('Statistics:')
+
+#       Print out the percentages
         for key in results_stats_dic:
                 if key[0] == 'p':
                         print(key + ': ' + str(results_stats_dic[key]))

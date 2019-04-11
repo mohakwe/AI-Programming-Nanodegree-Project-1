@@ -4,7 +4,7 @@
 #                                                                             
 # PROGRAMMER: Michael Ohakwe
 # DATE CREATED: 4/8/2019                                
-# REVISED DATE: 4/9/2019
+# REVISED DATE: 4/11/2019
 # PURPOSE: Create a function classify_images that uses the classifier function 
 #          to create the classifier labels and then compares the classifier 
 #          labels to the pet image labels. This function inputs:
@@ -65,20 +65,34 @@ def classify_images(images_dir, results_dic, model):
      Returns:
            None - results_dic is mutable data type so no return needed.         
     """
-    for key in results_dic:
-      model_label = ''
-      path = images_dir
-      path = str(path)
-      path +='/' + key
-      model_label = classifier(path,model)
-      results_dic[key]
 
+
+#   Process each key(filename) and run the classifier function using the model passed
+#   into the function
+    for key in results_dic:
+
+#     Initialize model label
+      model_label = ''
+
+#     Sets path using key and image directory
+      path = images_dir + '/' + key
+
+#     Uses classifier passing in the model name and the path
+      model_label = classifier(path,model)
+
+#     Format model label similarly to pet image label
       model_label = model_label.lower()
       model_label = model_label.strip()
 
+#     Sets the pet image label from the results dictionary as truth
       truth = results_dic[key][0]
 
+#     If model label has a correct breed name
       if truth in model_label:
+
+#       Extend results dictionary to include model label and '1' 
         results_dic[key].extend([model_label,1])
       else:
+
+#       Extend results dictionary to include model label and '0' 
         results_dic[key].extend([model_label,0])

@@ -4,7 +4,7 @@
 #                                                                             
 # PROGRAMMER: Michael Ohakwe
 # DATE CREATED: 4/9/2019                                
-# REVISED DATE: 4/9/2019
+# REVISED DATE: 4/11/2019
 # PURPOSE: Create a function adjust_results4_isadog that adjusts the results 
 #          dictionary to indicate whether or not the pet image label is of-a-dog, 
 #          and to indicate whether or not the classifier image label is of-a-dog.
@@ -38,38 +38,52 @@
 #       data type so no return is needed.
 # 
 def adjust_results4_isadog(results_dic, dogfile):
+# initialize dictionary of dognames
   dognames_dic = {}
+
+# open input file and call it infile
   with open(dogfile, 'r') as infile:
+
+#   Read in a line of the file
     line = infile.readline()
     while line != '':
 
+#     Store the line as the dogname
       dogname = line.rstrip()
+
+#     Populate the dictionary of dognames without repeats
       if dogname not in dognames_dic:
         dognames_dic[dogname] = 1
 
+#     Read in the next line of the file
       line = infile.readline()
 
+# For each image filename
   for key in results_dic:
+
 
     if results_dic[key][0] in dognames_dic:
 
       if results_dic[key][1] in dognames_dic:
-
+#       If the image label is a dogname and the classifier label is a dogname, 
+#       then extend the list to include [1,1]
         results_dic[key].extend([1,1])
-      
-      else:
-
+      elif results_dic[key][1] not in dognames_dic:
+#       If the image label is a dogname and classifier label isn't extend with [1,0]
         results_dic[key].extend([1,0])
 
-    else:
+#
+    if results_dic[key][1] in dognames_dic:
 
-      if results_dic[key][1] in dognames_dic:
+        if results_dic[key][0] not in dognames_dic:
+#         If only the Classifier label is in the dognames dictionary extend [0,1]
+          results_dic[key].extend([0,1])
 
-        results_dic[key].extend([0,1])
+    elif results_dic[key][1] not in dognames_dic:
 
-      else:
-
-        results_dic[key].extend([0,0])
+        if results_dic[key][0] not in dognames_dic:
+#         If neither are in the dognames dictionary extend[0,0]
+          results_dic[key].extend([0,0])
 
 
 
